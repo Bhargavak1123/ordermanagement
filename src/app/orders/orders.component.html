@@ -1,0 +1,195 @@
+
+<div class="ordersPage">
+  <h3 class="orderslistText">Orders List</h3>
+
+  <div class="addNew">
+    <div>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#addOrderModal">New order <i class="fa fa-plus" aria-hidden="true" ></i></button>
+    </div>
+    
+  </div>
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Order Number</th>
+        <th scope="col">Order Due Date</th>
+        <th scope="col">Buyer Name</th>
+        <th scope="col">Address</th>
+        <th scope="col">Mobile Number</th>
+        <th scope="col">Total</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let order of orders; let i = index" class="orderListTable">
+        <th scope="row">{{order.orderNumber}}</th>
+        <td>{{order.orderDueDate | date:'dd/MM/yyyy'}}</td>
+        <td>{{order.buyerName}}</td>
+        <td>{{order.address}}</td>
+        <td>{{order.mobileNumber}}</td>
+        <td>&#8377;{{order.total}}</td>
+        <td><i class="fa fa-pencil-square-o" aria-hidden="true" (click)="editOrder(i)"></i></td>
+        <td><i class="fa fa-trash" aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="getDeleteIndex(i)"></i></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="addOrderModal" tabindex="-1" role="dialog" aria-labelledby="addOrderModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addOrderModalLabel">Add Order</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="formWrapper">
+          <form>
+            <div>
+              <div class="form-group name">
+                <label for="name">Ordernumber:</label>
+                <input type="number" class="form-control input" id="name" name="name" [(ngModel)]="model.orderNumber"
+                  placeholder="Name">
+              </div>
+              <div class="form-group name">
+                <label for="position">Order Due Date:</label>
+                <ng-datepicker [(ngModel)]="model.orderDueDate" [ngModelOptions]="{standalone: true}" [options]="options">
+                </ng-datepicker>
+              </div>
+            </div>
+            
+            <div>
+              <div class="form-group name">
+                <label for="name">Buyer Name :</label>
+                <input type="text" class="form-control input" id="buyerName" name="buyerName" [(ngModel)]="model.buyerName"
+                  placeholder="Buyer Name">
+              </div>
+              <div class="form-group name">
+                <label for="name">Address :</label>
+                <input type="text" class="form-control input" id="address" name="address" [(ngModel)]="model.address"
+                  placeholder="Address">
+              </div>
+            </div>
+           <div>
+            <div class="form-group name">
+              <label for="name">Mobile Number :</label>
+              <input type="text" class="form-control input" id="mobileNumber" name="mobileNumber" [(ngModel)]="model.mobileNumber"
+                placeholder="Mobile Number" onkeyup="this.value=this.value.replace(/[^\d]/,'')" maxlength="10">
+            </div>
+            <div class="form-group name">
+              <label for="name">Total amount:</label>
+              <input type="number" class="form-control input" id="total" name="total" [(ngModel)]="model.total"
+                placeholder="Total amount">
+            </div>
+           </div>
+            
+            <div class="submitBtnContainer">
+              <button type="submit" class="saveBtn" (click)="addOrder()">SAVE</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="editOrder" tabindex="-1" role="dialog" aria-labelledby="editOrderModalLongTitle"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editOrderModalLongTitle">Edit Order</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="formWrapper">
+          <form>
+            <div>
+              <div class="form-group name">
+                <label for="name">Order number:</label>
+                <input type="number" class="form-control input" id="name" name="name" [(ngModel)]="model2.orderNumber"
+                  placeholder="Order number">
+              </div>
+              <div class="form-group name">
+                <label for="position">Order Due Date:</label>
+                <ng-datepicker [(ngModel)]="model2.orderDueDate" [ngModelOptions]="{standalone: true}" [options]="options">
+                </ng-datepicker>
+              </div>
+            </div>
+            
+            <div>
+              <div class="form-group name">
+                <label for="buyerName">Buyer Name :</label>
+                <input type="text" class="form-control input" id="buyerName" name="buyerName" [(ngModel)]="model2.buyerName"
+                  placeholder="Buyer Name">
+              </div>
+              <div class="form-group name">
+                <label for="address">Address :</label>
+                <input type="text" class="form-control input" id="address" name="address" [(ngModel)]="model2.address"
+                  placeholder="address">
+              </div>
+            </div>
+           <div>
+            <div class="form-group name">
+              <label for="mobileNumber">Mobile Number :</label>
+              <input type="text" class="form-control input" id="mobileNumber" name="mobileNumber" [(ngModel)]="model2.mobileNumber"
+                placeholder="Mobile Number" onkeyup="this.value=this.value.replace(/[^\d]/,'')" maxlength="10">
+            </div>
+            <div class="form-group name">
+              <label for="total">Total :</label>
+              <input type="number" class="form-control input" id="total" name="total" [(ngModel)]="model2.total"
+                placeholder="total">
+            </div>
+           </div>
+            <div class="submitBtnContainer">
+              <button type="button" class="btn btn-primary" (click)="updateOrder()">Update</button>
+            </div>
+           
+          </form>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Delete Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to delete</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteOrder()">Delete</button>
+      </div>
+    </div>
+
+  </div>
+</div>
